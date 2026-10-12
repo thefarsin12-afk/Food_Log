@@ -11,11 +11,21 @@ Content-Type: application/json
     "password":"password@123"
 }
 
+# api for generating token
+###
+POST http://127.0.0.1:8000/fit/token/
+Content-Type: application/json
+
+{
+    "username":"react",
+    "password":"password@123"
+}
+
 # list user
 ###
 GET http://127.0.0.1:8000/fit/me/
 Accept: application/json
-Authorization: Basic react:password@123
+Authorization: Token c98100072794ac0009182eb5e27f0f897f09e77c
 
 # ==== MEAL RECORD SECTION ====
 
@@ -23,13 +33,13 @@ Authorization: Basic react:password@123
 ###
 GET http://127.0.0.1:8000/fit/meal/
 Accept: application/json
-Authorization: Basic django:password@123
+Authorization: Token c98100072794ac0009182eb5e27f0f897f09e77c
 
 # api for create a meal record
 ###
 POST http://127.0.0.1:8000/fit/meal/
 Content-Type: application/json
-Authorization: Basic django:password@123
+Authorization: Token c98100072794ac0009182eb5e27f0f897f09e77c
 
 {
     "title" : "dosa",
@@ -43,15 +53,15 @@ Authorization: Basic django:password@123
 
 # api for detail user record
 ###
-GET http://127.0.0.1:8000/fit/meal/2/
+GET http://127.0.0.1:8000/fit/meal/1/
 Accept: application/json
-Authorization: Basic django:password@123
+Authorization: Token d90d78526fdd8cdd7ce12ee9bbb72c4c0cbfd5f8
 
 # api for updating record
 ###
-PUT http://127.0.0.1:8000/fit/meal/2/
+PUT http://127.0.0.1:8000/fit/meal/1/
 Content-Type: application/json
-Authorization: Basic django:password@123
+Authorization: Token d90d78526fdd8cdd7ce12ee9bbb72c4c0cbfd5f8
 
 {
   "id": 2,
@@ -67,4 +77,4 @@ Authorization: Basic django:password@123
 ###
 DELETE http://127.0.0.1:8000/fit/meal/2/
 Accept: application/json
-Authorization: Basic django:password@123
+Authorization: Token d90d78526fdd8cdd7ce12ee9bbb72c4c0cbfd5f8

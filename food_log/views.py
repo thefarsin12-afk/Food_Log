@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import  Response
 from rest_framework import authentication,permissions
+from food_log.permision import IsOwner
 
 from food_log.serializer import UserSerializer
 from food_log.serializer import MealRecordSerializer
@@ -32,7 +33,7 @@ class UserView(APIView):
 
 class GetMeView(APIView):
 
-    authentication_classes = [authentication.BasicAuthentication]
+    authentication_classes = [authentication.TokenAuthentication]
 
     permission_classes = [permissions.IsAuthenticated]
 
@@ -48,7 +49,7 @@ class GetMeView(APIView):
 
 class MealRecordListCreateView(APIView):
 
-    authentication_classes = [authentication.BasicAuthentication]
+    authentication_classes = [authentication.TokenAuthentication]
 
     permission_classes = [permissions.IsAuthenticated]
 
@@ -78,13 +79,15 @@ class MealRecordListCreateView(APIView):
 
 class MealRecordRetrieveUpdateDeleteView(APIView):
 
-    authentication_classes = [authentication.BasicAuthentication]
+    authentication_classes = [authentication.TokenAuthentication]
 
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwner]
 
     def get(self,request,pk=None):
 
         instance = get_object_or_404(MealRecordModel,id=pk)
+
+        self.check_object_permissions(request,instance)
 
         serializer_instants = MealRecordSerializer(instance)
 
@@ -93,6 +96,8 @@ class MealRecordRetrieveUpdateDeleteView(APIView):
     def put(self,request,pk=None):
 
         instance = get_object_or_404(MealRecordModel,id=pk)
+
+        self.check_object_permissions(request,instance)
 
         form_data = request.data
 
@@ -110,6 +115,8 @@ class MealRecordRetrieveUpdateDeleteView(APIView):
     def delete(self,request,pk=None):
 
         instance = get_object_or_404(MealRecordModel,id=pk)
+
+        self.check_object_permissions(request,instance)
 
         instance.delete()
 
