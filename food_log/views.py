@@ -1,5 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.models import User
+from django.db.models import Sum
+from datetime import datetime
 
 from rest_framework.views import APIView
 from rest_framework.response import  Response
@@ -120,7 +122,59 @@ class MealRecordRetrieveUpdateDeleteView(APIView):
 
         instance.delete()
 
-        return Response(data={"Message:Record Deleted"})        
+        return Response(data={"Message:Record Deleted"})   
+
+class SummaryView(APIView):
+
+    authentication_classes = [authentication.TokenAuthentication]
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request):
+
+        response_data = {
+
+            "total":0
+        }
+
+        currt_month = datetime.now().month
+
+        currt_year = datetime.now().year
+
+        currt_date = datetime.now().today()
+
+        #monthly_summary
+
+        monthly_summary = MealRecordModel.objects.filter(owner = request.user,created_at__month = currt_month,created_at__year = currt_year)
+
+        if monthly_summary:
+
+            monthly_calorie = monthly_summary.values("calorie").aggregate(total=Sum("calorie")).get("total")
+
+            response_data ["monthly_calorie"] = monthly_calorie
+
+
+
+        # today summary
+
+        today_calorie = MealRecordModel.objects.filter(owner=request.user,created_at__date=currt_date)
+
+        if today_calorie:
+
+            today_summary = today_calorie.values("calorie").aggregate(today_total=Sum("calorie")).get("today_total")
+
+            response_data["today_total"] = today_summary
+
+            # category summary
+
+            category_summary = today_calorie.values("meal_type").annotate(details=Sum("calorie"))
+
+            response_data["details"] = category_summary
+
+
+        return Response(data=response_data)    
+
+
 
     
 

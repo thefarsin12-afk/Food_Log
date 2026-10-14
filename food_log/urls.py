@@ -2,8 +2,10 @@ from django.urls import path
 
 from food_log.views import UserView,GetMeView
 from food_log.views import MealRecordListCreateView,MealRecordRetrieveUpdateDeleteView
+from food_log.views import SummaryView
 
 from rest_framework.authtoken.views import ObtainAuthToken
+
 
 urlpatterns = [
 
@@ -17,6 +19,9 @@ urlpatterns = [
 
     # ==== meal record retrieve,update,delete section ====
     path('meal/<int:pk>/',MealRecordRetrieveUpdateDeleteView.as_view()),
+
+    # ==== summary ====
+    path('meal/summary/',SummaryView.as_view()),
 
     # ==== token authentication ====
     path('token/',ObtainAuthToken.as_view()),

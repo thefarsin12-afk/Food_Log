@@ -42,20 +42,20 @@ Content-Type: application/json
 Authorization: Token c98100072794ac0009182eb5e27f0f897f09e77c
 
 {
-    "title" : "dosa",
+    "title" : "eggfry",
 
-    "calorie" : "250",
+    "calorie" : "350",
 
-    "meal_type" : "BREAKFAST",
+    "meal_type" : "SNACK",
 
-    "serving_size" : "Large"
+    "serving_size" : "6 Whole"
 }
 
 # api for detail user record
 ###
 GET http://127.0.0.1:8000/fit/meal/1/
 Accept: application/json
-Authorization: Token d90d78526fdd8cdd7ce12ee9bbb72c4c0cbfd5f8
+Authorization: Token c98100072794ac0009182eb5e27f0f897f09e77c
 
 # api for updating record
 ###
@@ -78,3 +78,9 @@ Authorization: Token d90d78526fdd8cdd7ce12ee9bbb72c4c0cbfd5f8
 DELETE http://127.0.0.1:8000/fit/meal/2/
 Accept: application/json
 Authorization: Token d90d78526fdd8cdd7ce12ee9bbb72c4c0cbfd5f8
+
+# ==== SUMMARY ====
+###
+GET http://127.0.0.1:8000/fit/meal/summary/
+Accept: application/json
+Authorization: Token c98100072794ac0009182eb5e27f0f897f09e77c
