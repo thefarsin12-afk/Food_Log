@@ -84,3 +84,9 @@ Authorization: Token d90d78526fdd8cdd7ce12ee9bbb72c4c0cbfd5f8
 GET http://127.0.0.1:8000/fit/meal/summary/
 Accept: application/json
 Authorization: Token c98100072794ac0009182eb5e27f0f897f09e77c
+
+# ==== deit plan ====
+###
+GET http://127.0.0.1:8000/fit/meal/diet/
+Accept: application/json
+Authorization: Token c98100072794ac0009182eb5e27f0f897f09e77c

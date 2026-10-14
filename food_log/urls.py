@@ -3,6 +3,7 @@ from django.urls import path
 from food_log.views import UserView,GetMeView
 from food_log.views import MealRecordListCreateView,MealRecordRetrieveUpdateDeleteView
 from food_log.views import SummaryView
+from food_log.views import DietPlanView
 
 from rest_framework.authtoken.views import ObtainAuthToken
 
@@ -22,6 +23,9 @@ urlpatterns = [
 
     # ==== summary ====
     path('meal/summary/',SummaryView.as_view()),
+
+    # ==== diet plan
+    path('meal/diet/',DietPlanView.as_view()),
 
     # ==== token authentication ====
     path('token/',ObtainAuthToken.as_view()),

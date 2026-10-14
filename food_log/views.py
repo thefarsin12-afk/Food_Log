@@ -6,11 +6,12 @@ from datetime import datetime
 from rest_framework.views import APIView
 from rest_framework.response import  Response
 from rest_framework import authentication,permissions
-from food_log.permision import IsOwner
 
+from food_log.permision import IsOwner
 from food_log.serializer import UserSerializer
 from food_log.serializer import MealRecordSerializer
 from food_log.models import MealRecordModel
+from food_log.ai_service import get_diet_plan
 
 class UserView(APIView):
 
@@ -161,18 +162,56 @@ class SummaryView(APIView):
 
         if today_calorie:
 
-            today_summary = today_calorie.values("calorie").aggregate(today_total=Sum("calorie")).get("today_total")
+            today_summary = today_calorie.values("calorie").aggregate(total=Sum("calorie")).get("total")
 
-            response_data["today_total"] = today_summary
+            response_data["total"] = today_summary
 
             # category summary
 
             category_summary = today_calorie.values("meal_type").annotate(details=Sum("calorie"))
 
-            response_data["details"] = category_summary
+            response_data["category_summary"] = category_summary
 
 
         return Response(data=response_data)    
+
+class DietPlanView(APIView):
+
+    authentication_classes = [authentication.TokenAuthentication]
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request):
+
+        response_data = {
+        
+                    "total" : 0
+        }
+
+        current_month = datetime.now().month
+
+        current_year = datetime.now().year
+
+        monthly_summary = MealRecordModel.objects.filter(owner = request.user,
+                                                         created_at__month = current_month,
+                                                         created_at__year = current_year)
+
+        if monthly_summary:
+
+            monthly_total = monthly_summary.values("calorie").aggregate(total=Sum("calorie")).get("total")
+
+            meal_summary = monthly_summary.values("meal_type").annotate(category_summary=Sum("calorie"))
+
+            response_data["total"]=monthly_total
+
+            response_data["category_summary"]=meal_summary
+
+            get_diet_plan(response_data)
+
+        return Response(response_data)    
+
+
+
 
 
 
