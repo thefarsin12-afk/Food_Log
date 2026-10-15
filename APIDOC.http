@@ -42,13 +42,13 @@ Content-Type: application/json
 Authorization: Token c98100072794ac0009182eb5e27f0f897f09e77c
 
 {
-    "title" : "eggfry",
+    "title" : "Sadhya",
 
-    "calorie" : "350",
+    "calorie" : "650",
 
-    "meal_type" : "SNACK",
+    "meal_type" : "LUNCH",
 
-    "serving_size" : "6 Whole"
+    "serving_size" : "1 plate"
 }
 
 # api for detail user record

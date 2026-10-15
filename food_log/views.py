@@ -206,7 +206,9 @@ class DietPlanView(APIView):
 
             response_data["category_summary"]=meal_summary
 
-            get_diet_plan(response_data)
+            deit_plan = get_diet_plan(response_data)
+
+            response_data["deit_plan"]=deit_plan
 
         return Response(response_data)    
 
